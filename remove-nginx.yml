@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: update apt repository
+    apt:
+      update-cache: true
+          
+  - name: install nginx package
+    command: apt autoremove nginx -y
+    
+
+  - name: install ssh package
+    apt:
+      name: ssh
+      state: latest

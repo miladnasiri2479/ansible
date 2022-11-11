@@ -8,11 +8,19 @@
     apt:
       update-cache: true
           
-  - name: install nginx package
+  - name: remove nginx package in ubuntu 
     command: apt autoremove nginx -y
+    when: ansible_distribution == "Ubuntu"
     
 
   - name: install ssh package
     apt:
       name: ssh
       state: latest
+
+  - name: remove nginx package in CentOS
+    command: yum autoremove nginx -y
+    when: ansible_distribution == "CentOS"
+    
+
+

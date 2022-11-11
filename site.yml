@@ -1,0 +1,31 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: update cache Ubuntu
+    tags: ubuntu
+    apt:   
+      update-cache: true
+    when: ansible_distribution == "Ubuntu"
+  
+  - name: update CentOS package manager cache
+    yum:
+      update_cache: true
+    when: ansible_distribution == "CentOS"
+
+- hosts: web_server
+  become: true
+  tasks:
+
+  - name: install web server 
+    apt:
+      name: nginx
+
+- hosts: mysql
+  become: true
+  tasks:
+    - name: install website database
+      apt:
+        name: mysql-server

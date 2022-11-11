@@ -4,31 +4,12 @@
   become: true
   tasks:
   
-  - name: update apt repository
-    apt:
+  - name: update package  repository and install nginx & ssh
+    package:
+      name:
+        -  "{{ package_nginx }}"
+        -  "{{ package_ssh }}"
+      state: latest      
       update-cache: true
-    when: ansible_distribution == "Ubuntu" 
-          
-  - name: install nginx package
-    apt:
-      name: nginx
-      state: latest
-    when: ansible_distribution == "Ubuntu"
 
-  - name: install ssh package
-    apt:
-      name: ssh
-      state: latest
-    when: ansible_distribution == "Ubuntu"
-
-  - name: update apt repository in CentOS
-    yum:
-      update_cache: yes
-    when: ansible_distribution == "CentOS" 
- 
-  - name: install nginx package in Centos
-    yum:
-      name: nginx
-      state: latest
-    when: ansible_distribution == "CentOS"
 

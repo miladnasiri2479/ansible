@@ -1,0 +1,38 @@
+---
+
+- hosts: all
+  become: true
+  tasks:
+  
+  - name: update cache Ubuntu
+    tags: ubuntu
+    apt:   
+      update-cache: true
+    when: ansible_distribution == "Ubuntu"
+  
+  - name: update CentOS package manager cache
+    yum:
+      update_cache: true
+    when: ansible_distribution == "CentOS"
+
+
+  - name: add user ansible
+    tags: always
+    user:
+      name: ansible
+      groups: root,sudo
+
+  - name: add ssh authorized key in servers
+    tags: always
+    authorized_key:
+      user: ansible
+      key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCYY2KRG0Q5IKej++vpqVgp5ElH407Tt7kogVDJZjD1U9nRKvwFiRhGlnm6BQbjU+j459dKeCpbrGEbOdVo4zt9nEX3J6NkwPo1nphx/BudTrb2JbsLe5UiVClbSttQ5r1pIt3vfUCuLxxhT79fUc3/5b1lB4ydoW2KvzY7dnXeCGrK2r3flv5weN233EhXiawPxesvkLifMAvUiTDivXefxk34UEK1iR4FIT5dZJMH/qm1uer6/JBvTtMhU9whz9BqOcX5QO2eVYoWDylRfEl61bA0bLcLnobJNBLiCEHKqKm4khpJ51ag/37h/6oO2ijsRjPE9WxIaOv69LTzOrgX49ntgEGd067ZXMnNLHvwu1ymy4wngh54uiOzFR1xW2B/H59RBjyVpducaKfsH6h0TweXO6bhdbfAowSzrg9xI+ntxS4MWVsc7O8Av1DxaBAoelRar0oDps1P6P6gagT7JCwiuHSYErqRUM1Ov7tjEo5adqz8RMtCPOA2ToQbAmk= root@ubuntu"
+
+
+  - name: copy and add sudoers file for ansible user in severs
+    copy:
+      src: ansible
+      dest: /etc/sudoers.d/ansible
+      owner: root
+      group: root
+      mode: 0440

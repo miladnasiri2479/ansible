@@ -2,34 +2,16 @@
 
 - hosts: all
   become: true
-  tasks:
+  roles:
+    - default
   
-  - name: update cache Ubuntu
-    tags: ubuntu
-    apt:   
-      update-cache: true
-    when: ansible_distribution == "Ubuntu"
-  
-  - name: update CentOS package manager cache
-    yum:
-      update_cache: true
-    when: ansible_distribution == "CentOS"
 
 - hosts: web_server
   become: true
-  tasks:
+  name: add webserver role and tasks
+  roles:
+    - web_server
 
-  - name: install web server 
-    apt:
-      name: nginx
-
-  - name: copy index.html file in webserver root directory
-    copy:
-      src: index.html
-      dest: /var/www/html/index.html
-      mode: 0644
-      owner: root
-      group: root
 - hosts: mysql
   become: true
   tasks:

@@ -1,0 +1,12 @@
+  - name: update cache Ubuntu
+    tags: ubuntu
+    apt:
+      update-cache: true
+    when: ansible_distribution == "Ubuntu"
+
+  - name: update CentOS package manager cache
+    yum:
+      update_cache: true
+    when: ansible_distribution == "CentOS"
+
+

@@ -1,0 +1,12 @@
+  - name: install web server
+    apt:
+      name: nginx
+
+  - name: copy index.html file in webserver root directory
+    copy:
+      src: index.html
+      dest: /var/www/html/index.html
+      mode: 0644
+      owner: root
+      group: root
+
